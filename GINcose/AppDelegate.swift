@@ -11,7 +11,7 @@ import Cocoa
 let appDel = NSApp.delegate! as! AppDelegate
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate {
 
     var statusItem :NSStatusItem!
     
@@ -23,6 +23,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // Insert code here to initialize your application
+        NSUserNotificationCenter.defaultUserNotificationCenter().delegate = self
+        
         let icon = NSImage(named: "statusIcon")!
         icon.template = true
         
@@ -60,6 +62,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } else {
             showPopover(sender)
         }
+    }
+    
+    func userNotificationCenter(center: NSUserNotificationCenter, shouldPresentNotification notification: NSUserNotification) -> Bool {
+        return true
     }
     
 }

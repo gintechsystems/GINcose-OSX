@@ -19,8 +19,12 @@ enum DexcomShare2Services: String {
     case Publisher = "https://share2.dexcom.com/ShareWebServices/Services/Publisher/"
 }
 
+// Not sure if this is required by each specific account or if you can use any account, seems that you cannot use all zeros.
 var applicationId :String = "d89443d2-327c-4a6f-89e5-496bbb0317db"
 
-// These variables need to be replaced by a follower with your account!
+// These variables need to be replaced by a follower with your account.
 var accountId :String = "ad529418-1be5-4379-8c79-39d4c922607f"
 var accountPassword :String = "0BDCE33F-5B01-4C85-A2A7-B552B67B72C0"
+
+var dexcomUsername :String = ""
+var dexcomPassword :String = ""

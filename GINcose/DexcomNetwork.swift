@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import Cocoa
 
 class DexcomNetwork :NSObject {
     
@@ -18,8 +18,6 @@ class DexcomNetwork :NSObject {
     
     func setupManager() {
         let requestSerializer = AFJSONRequestSerializer()
-        requestSerializer.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
         let responseSerializer = AFJSONResponseSerializer(readingOptions: .AllowFragments)
         
         manager.requestSerializer = requestSerializer
@@ -86,6 +84,12 @@ class DexcomNetwork :NSObject {
             
             lastGlucose.printGlucose()
             
+            let notification = NSUserNotification()
+            notification.title = "Glucose Notification"
+            notification.informativeText = String(format: "Your glucose level is now at %i.", lastGlucose.glucose)
+            notification.soundName = NSUserNotificationDefaultSoundName
+            
+            NSUserNotificationCenter.defaultUserNotificationCenter().deliverNotification(notification)
             }) { (task :NSURLSessionDataTask?, error :NSError) -> Void in
                 NSLog("\(error)")
         }
@@ -93,7 +97,7 @@ class DexcomNetwork :NSObject {
         NSLog("Requesting LastGlucose...")
     }
     
-    let glucoseDateFormatter: NSDateFormatter = {
+    let dateFormatter: NSDateFormatter = {
         let dateFormatter = NSDateFormatter()
         
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
