@@ -12,11 +12,17 @@ PODS:
   - AFNetworking/Reachability (3.0.4)
   - AFNetworking/Security (3.0.4)
   - AFNetworking/Serialization (3.0.4)
+  - Alamofire (3.3.0)
+  - AlamofireImage (2.4.0):
+    - Alamofire (~> 3.3)
 
 DEPENDENCIES:
-  - AFNetworking (~> 3.0)
+  - AFNetworking
+  - AlamofireImage
 
 SPEC CHECKSUMS:
   AFNetworking: a0075feb321559dc78d9d85b55d11caa19eabb93
+  Alamofire: 9054db4a1b1ca9e363223183e01cea380159a27c
+  AlamofireImage: 87408b652e0f5ae5fe364035f15aea8b9b24c77e
 
 COCOAPODS: 0.39.0

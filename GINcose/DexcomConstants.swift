@@ -8,23 +8,16 @@
 
 import Foundation
 
-
-enum DexcomShare1Services: String {
-    case General = "https://share1.dexcom.com/ShareWebServices/Services/General/"
-    case Subscriber = "https://share1.dexcom.com/ShareWebServices/Services/Subscriber/"
-}
-
 enum DexcomShare2Services: String {
     case General = "https://share2.dexcom.com/ShareWebServices/Services/General/"
     case Publisher = "https://share2.dexcom.com/ShareWebServices/Services/Publisher/"
 }
 
 // Not sure if this is required by each specific account or if you can use any account, seems that you cannot use all zeros.
-var applicationId :String = "d89443d2-327c-4a6f-89e5-496bbb0317db"
+var applicationId :String = "13A907FB-AC7E-4F90-B4EC-2F2B8BE1C607"
 
-// These variables need to be replaced by a follower with your account.
-var accountId :String = "ad529418-1be5-4379-8c79-39d4c922607f"
-var accountPassword :String = "0BDCE33F-5B01-4C85-A2A7-B552B67B72C0"
+// These variables need to be replaced by your account login.
+var dexcomUsername :String = "itzmcgin"
+var dexcomPassword :String = "Windows00"
 
-var dexcomUsername :String = ""
-var dexcomPassword :String = ""
+var glucoseMaxCount = 1

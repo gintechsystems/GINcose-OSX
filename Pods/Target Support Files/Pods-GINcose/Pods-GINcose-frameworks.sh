@@ -82,3 +82,14 @@ strip_invalid_archs() {
   fi
 }
 
+
+if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "Pods-GINcose/AFNetworking.framework"
+  install_framework "Pods-GINcose/Alamofire.framework"
+  install_framework "Pods-GINcose/AlamofireImage.framework"
+fi
+if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "Pods-GINcose/AFNetworking.framework"
+  install_framework "Pods-GINcose/Alamofire.framework"
+  install_framework "Pods-GINcose/AlamofireImage.framework"
+fi

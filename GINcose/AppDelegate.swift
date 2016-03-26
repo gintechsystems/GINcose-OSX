@@ -20,6 +20,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     let dexcomNetwork = DexcomNetwork()
     
     let defaultPopOver = NSPopover()
+    
+    var dexcomPublisherAccount :PublisherAccountInfo! = nil
+    
+    var glucoseTimer :NSTimer! = nil
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // Insert code here to initialize your application
@@ -31,6 +35,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(NSVariableStatusItemLength)
         statusItem.image = icon
         statusItem.action = #selector(togglePopover)
+        
+        defaultPopOver.contentViewController = GlucosePopupViewController(nibName: "GlucosePopupViewController", bundle: nil)
         
         // Seup the network manager
         dexcomNetwork.setupManager()

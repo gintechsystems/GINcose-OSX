@@ -8,13 +8,14 @@
 
 import Foundation
 import Cocoa
+import Alamofire
+import AlamofireImage
 
 class DexcomNetwork :NSObject {
     
     let manager = AFHTTPSessionManager()
     
     var sessionId = ""
-    var subscriptionId = ""
     
     func setupManager() {
         let requestSerializer = AFJSONRequestSerializer()
@@ -26,16 +27,17 @@ class DexcomNetwork :NSObject {
     
     func getSessionId() {
         
-        let dict = ["applicationId" : applicationId, "accountId" : accountId, "password" : accountPassword]
+        let dict = ["applicationId" : applicationId, "accountName" : dexcomUsername, "password" : dexcomPassword]
         
-        manager.POST(String(format: "%@LoginSubscriberAccount", DexcomShare1Services.General.rawValue), parameters: dict, progress: nil, success: { (task :NSURLSessionDataTask, responseObj :AnyObject?) -> Void in
+        manager.POST(String(format: "%@LoginPublisherAccountByName", DexcomShare2Services.General.rawValue), parameters: dict, progress: nil, success: { (task :NSURLSessionDataTask, responseObj :AnyObject?) -> Void in
             NSLog("SessionId Completed")
                 
             //NSLog("\(responseObj!)")
             
             self.sessionId = responseObj as! String
             
-            self.getSubscriptionId()
+            self.setupPublisher()
+            self.getLatestGlucose()
             }) { (task :NSURLSessionDataTask?, error :NSError) -> Void in
                 NSLog("\(error)")
         }
@@ -43,28 +45,8 @@ class DexcomNetwork :NSObject {
         NSLog("Requesting SessionId...")
     }
     
-    func getSubscriptionId() {
-        manager.POST(String(format: "%@ListSubscriberAccountSubscriptions?sessionId=%@", DexcomShare1Services.Subscriber.rawValue, sessionId), parameters: nil, progress: nil, success: { (task :NSURLSessionDataTask, responseObj :AnyObject?) -> Void in
-            NSLog("SubscriptionId Completed")
-            
-            //NSLog("\(responseObj!)")
-            
-            let json :NSArray = responseObj as! NSArray
-            
-            self.subscriptionId = json[0]["SubscriptionId"] as! String
-            
-            self.getLatestGlucose()
-            }) { (task :NSURLSessionDataTask?, error :NSError) -> Void in
-                NSLog("\(error)")
-        }
-        
-        NSLog("Requesting SubscriptionId...")
-    }
-    
     func getLatestGlucose() {
-        let dict = [subscriptionId]
-        
-        manager.POST(String(format: "%@ReadLastGlucoseFromSubscriptions?sessionId=%@", DexcomShare1Services.Subscriber.rawValue, sessionId), parameters: dict, progress: nil, success: { (task :NSURLSessionDataTask, responseObj :AnyObject?) -> Void in
+        manager.POST(String(format: "%@ReadPublisherLatestGlucoseValues?sessionId=%@&minutes=1440&maxCount=%i", DexcomShare2Services.Publisher.rawValue, sessionId, glucoseMaxCount), parameters: nil, progress: nil, success: { (task :NSURLSessionDataTask, responseObj :AnyObject?) -> Void in
             NSLog("LastGlucose Completed")
             
             //NSLog("\(responseObj!)")
@@ -72,10 +54,10 @@ class DexcomNetwork :NSObject {
             let json :NSArray = responseObj as! NSArray
             
             let lastGlucose = LastGlucoseInfo()
-            lastGlucose.trend = json[0]["Egv"]!!["Trend"] as! Int
-            lastGlucose.glucose = json[0]["Egv"]!!["Value"] as! Int
+            lastGlucose.trend = json[0]["Trend"] as! Int
+            lastGlucose.glucose = json[0]["Value"] as! Int
             
-            var glucoseDate = json[0]["Egv"]!!["ST"] as! String
+            var glucoseDate = json[0]["ST"] as! String
             glucoseDate = glucoseDate.stringByReplacingOccurrencesOfString("/Date(", withString: "")
             glucoseDate = glucoseDate.stringByReplacingOccurrencesOfString(")/", withString: "")
             
@@ -90,11 +72,29 @@ class DexcomNetwork :NSObject {
             notification.soundName = NSUserNotificationDefaultSoundName
             
             NSUserNotificationCenter.defaultUserNotificationCenter().deliverNotification(notification)
+            
+            if (appDel.glucoseTimer == nil) {
+                // 5 minutes and 10 seconds for an update.
+                appDel.glucoseTimer = NSTimer.scheduledTimerWithTimeInterval(310, target: self, selector: #selector(self.getLatestGlucose), userInfo: nil, repeats: true)
+            }
             }) { (task :NSURLSessionDataTask?, error :NSError) -> Void in
                 NSLog("\(error)")
         }
         
         NSLog("Requesting LastGlucose...")
+    }
+    
+    func setupPublisher() {
+        Alamofire.request(.GET, String(format: "%@ReadPublisherAccountImage?sessionId=%@", DexcomShare2Services.Publisher.rawValue, sessionId))
+            .responseImage { response in
+                if let image = response.result.value {
+                    appDel.dexcomPublisherAccount = PublisherAccountInfo(image: image)
+                    
+                    NSLog("Publisher Image Completed")
+                }
+        }
+        
+        NSLog("Requesting Publisher Image...")
     }
     
     let dateFormatter: NSDateFormatter = {
