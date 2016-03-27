@@ -12,6 +12,7 @@
                 <outlet property="passwordSecureField" destination="WRa-J6-na3" id="M08-t1-C7K"/>
                 <outlet property="publisherEmailField" destination="liZ-8w-vN3" id="6aw-ND-HP1"/>
                 <outlet property="publisherImageView" destination="JsK-rD-bhk" id="huj-Gz-5vA"/>
+                <outlet property="quitButton" destination="Lh6-Nt-8b4" id="4R0-aB-oOm"/>
                 <outlet property="usernameTextField" destination="kkR-X4-3Ps" id="iA6-5W-ucf"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
@@ -71,6 +72,16 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Lh6-Nt-8b4">
+                    <rect key="frame" x="184" y="3" width="112" height="32"/>
+                    <buttonCell key="cell" type="push" title="Quit" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="W40-Ol-ne2">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="onQuitClick:" target="-2" id="4dW-qo-oth"/>
+                    </connections>
+                </button>
             </subviews>
         </customView>
     </objects>

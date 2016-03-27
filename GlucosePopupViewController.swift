@@ -20,6 +20,8 @@ class GlucosePopupViewController: NSViewController {
     
     @IBOutlet var latestGlucoseLevelField :NSTextField!
     
+    @IBOutlet var quitButton :NSButton!
+    
     override func viewDidLoad() {
         appDel.glucosePopOver = self
         
@@ -59,5 +61,9 @@ class GlucosePopupViewController: NSViewController {
             // Once the dexcom information has been set, attempt to authenticate and grab a session.
             appDel.dexcomNetwork.getSessionId()
         }
+    }
+    
+    @IBAction func onQuitClick(sender :NSObject) {
+        NSApplication.sharedApplication().terminate(sender)
     }
 }
