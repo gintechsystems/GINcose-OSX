@@ -27,7 +27,6 @@
 		BB7D2F3F1C9F35A40055FD5A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB7D2F451C9F37E90055FD5A /* DexcomConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DexcomConstants.swift; sourceTree = "<group>"; };
 		BB7D2F471C9F41FF0055FD5A /* DexcomNetwork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DexcomNetwork.swift; sourceTree = "<group>"; };
-		BB7D2F491C9F8B050055FD5A /* GINcose-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "GINcose-Bridging-Header.h"; path = "GINcose/GINcose-Bridging-Header.h"; sourceTree = "<group>"; };
 		BB7D2F4C1C9FE5570055FD5A /* LastGlucoseInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LastGlucoseInfo.swift; sourceTree = "<group>"; };
 		BB87445B1CA7480700981E31 /* PublisherAccountInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublisherAccountInfo.swift; sourceTree = "<group>"; };
 		BB87445F1CA7521800981E31 /* GlucosePopupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GlucosePopupViewController.swift; path = ../GlucosePopupViewController.swift; sourceTree = "<group>"; };
@@ -61,7 +60,6 @@
 		BB7D2F2C1C9F35A40055FD5A = {
 			isa = PBXGroup;
 			children = (
-				BB7D2F491C9F8B050055FD5A /* GINcose-Bridging-Header.h */,
 				BB7D2F371C9F35A40055FD5A /* GINcose */,
 				BB7D2F361C9F35A40055FD5A /* Products */,
 				3A1888B004B59FF6DEC23689 /* Pods */,
@@ -273,10 +271,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "GINcose/GINcose-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -311,9 +310,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "GINcose/GINcose-Bridging-Header.h";
 			};
 			name = Release;
 		};
