@@ -10,7 +10,6 @@ import Foundation
 import Cocoa
 
 class PublisherAccountInfo: NSObject {
-    var displayName = ""
     var email = ""
     var image :NSImage
     

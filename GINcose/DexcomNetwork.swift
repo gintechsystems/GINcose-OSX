@@ -11,18 +11,20 @@ import Cocoa
 import Alamofire
 import AlamofireImage
 
-class DexcomNetwork :NSObject {
+class DexcomNetwork :NSObject, NSXMLParserDelegate {
     
     let manager = AFHTTPSessionManager()
     
+    let jsonResponseSerializer = AFJSONResponseSerializer(readingOptions: .AllowFragments)
+    let xmlResponseSerializer = AFXMLParserResponseSerializer()
+    
     var sessionId = ""
     
+    var parserService :Int = 0
+    
     func setupManager() {
-        let requestSerializer = AFJSONRequestSerializer()
-        let responseSerializer = AFJSONResponseSerializer(readingOptions: .AllowFragments)
-        
-        manager.requestSerializer = requestSerializer
-        manager.responseSerializer = responseSerializer
+        manager.requestSerializer = AFJSONRequestSerializer()
+        manager.responseSerializer = jsonResponseSerializer
     }
     
     func getSessionId() {
@@ -33,6 +35,9 @@ class DexcomNetwork :NSObject {
             NSLog("SessionId Completed")
                 
             //NSLog("\(responseObj!)")
+            
+            appDel.userDefaults.setObject(dexcomUsername, forKey: "user")
+            appDel.userDefaults.setObject(dexcomPassword, forKey: "pwd")
             
             self.sessionId = responseObj as! String
             
@@ -53,22 +58,34 @@ class DexcomNetwork :NSObject {
             
             let json :NSArray = responseObj as! NSArray
             
-            let lastGlucose = LastGlucoseInfo()
-            lastGlucose.trend = json[0]["Trend"] as! Int
-            lastGlucose.glucose = json[0]["Value"] as! Int
+            appDel.lastGlucoseInfo = LastGlucoseInfo()
+            appDel.lastGlucoseInfo.trend = json[0]["Trend"] as! Int
+            appDel.lastGlucoseInfo.glucose = json[0]["Value"] as! Int
             
             var glucoseDate = json[0]["ST"] as! String
             glucoseDate = glucoseDate.stringByReplacingOccurrencesOfString("/Date(", withString: "")
             glucoseDate = glucoseDate.stringByReplacingOccurrencesOfString(")/", withString: "")
             
             let realTimeStamp = NSDate(timeIntervalSince1970: Double(glucoseDate)! / 1000)
-            lastGlucose.timestamp = realTimeStamp
+            appDel.lastGlucoseInfo.timestamp = realTimeStamp
             
-            lastGlucose.printGlucose()
+            appDel.lastGlucoseInfo.printGlucose()
+            
+            if (appDel.glucosePopOver != nil) {
+                appDel.glucosePopOver!.latestGlucoseLevelField.hidden = false
+                appDel.glucosePopOver!.latestGlucoseLevelField.stringValue = String(format: "Latest Glucose Level: %i", appDel.lastGlucoseInfo!.glucose)
+            }
             
             let notification = NSUserNotification()
             notification.title = "Glucose Notification"
-            notification.informativeText = String(format: "Your glucose level is now at %i.", lastGlucose.glucose)
+            if (appDel.isFirstReadingLaunch) {
+                appDel.isFirstReadingLaunch = false
+                
+                notification.informativeText = String(format: "Your latest glucose level is %i.", appDel.lastGlucoseInfo.glucose)
+            }
+            else {
+                notification.informativeText = String(format: "Your glucose level is now at %i.", appDel.lastGlucoseInfo.glucose)
+            }
             notification.soundName = NSUserNotificationDefaultSoundName
             
             NSUserNotificationCenter.defaultUserNotificationCenter().deliverNotification(notification)
@@ -90,11 +107,52 @@ class DexcomNetwork :NSObject {
                 if let image = response.result.value {
                     appDel.dexcomPublisherAccount = PublisherAccountInfo(image: image)
                     
+                    if (appDel.glucosePopOver != nil) {
+                        appDel.glucosePopOver!.publisherImageView.image = image
+                    }
+                    
                     NSLog("Publisher Image Completed")
                 }
+                
+                self.getPublisherEmail()
         }
         
         NSLog("Requesting Publisher Image...")
+    }
+    
+    func getPublisherEmail() {
+        manager.responseSerializer = xmlResponseSerializer
+        
+        manager.POST(String(format: "%@ReadPublisherAccountEmail?sessionId=%@", DexcomShare2Services.Publisher.rawValue, sessionId), parameters: nil, progress: nil, success: { (task :NSURLSessionDataTask, responseObj :AnyObject?) -> Void in
+            NSLog("Publisher Email Completed")
+            
+            //NSLog("\(responseObj!)")
+            
+            let parser = responseObj as! NSXMLParser
+            parser.delegate = self
+            parser.parse()
+            
+            self.manager.responseSerializer = self.jsonResponseSerializer
+        }) { (task :NSURLSessionDataTask?, error :NSError) -> Void in
+            NSLog("\(error)")
+        }
+        
+        NSLog("Requesting Publisher Email...")
+    }
+    
+    func parser(parser: NSXMLParser, foundCharacters string: String) {
+        NSLog("\(string)")
+        
+        if (parserService == DexcomShare2ParseServices.PublisherEmail.rawValue) {
+            if (appDel.dexcomPublisherAccount != nil) {
+                appDel.dexcomPublisherAccount.email = string
+                
+                if (appDel.glucosePopOver != nil) {
+                    appDel.glucosePopOver!.publisherEmailField.stringValue = string
+                    appDel.glucosePopOver!.publisherEmailField.hidden = false
+                }
+            }
+        }
     }
     
     let dateFormatter: NSDateFormatter = {

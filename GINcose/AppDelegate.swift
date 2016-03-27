@@ -12,18 +12,26 @@ let appDel = NSApp.delegate! as! AppDelegate
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate {
+    
+    let userDefaults = NSUserDefaults()
+    
+    let dexcomNetwork = DexcomNetwork()
+    
+    let defaultPopOver = NSPopover()
 
     var statusItem :NSStatusItem!
     
     var darkModeOn = false
     
-    let dexcomNetwork = DexcomNetwork()
-    
-    let defaultPopOver = NSPopover()
-    
     var dexcomPublisherAccount :PublisherAccountInfo! = nil
     
+    var lastGlucoseInfo :LastGlucoseInfo! = nil
+    
+    var glucosePopOver :GlucosePopupViewController? = nil
+    
     var glucoseTimer :NSTimer! = nil
+    
+    var isFirstReadingLaunch = true
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // Insert code here to initialize your application
@@ -41,8 +49,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         // Seup the network manager
         dexcomNetwork.setupManager()
         
-        // Start by getting the session id
-        dexcomNetwork.getSessionId()
+        if (userDefaults.stringForKey("user") != nil && userDefaults.stringForKey("pwd") != nil) {
+            dexcomUsername = userDefaults.stringForKey("user")!
+            dexcomPassword = userDefaults.stringForKey("pwd")!
+        }
+        
+        if (dexcomUsername != "" && dexcomPassword != "") {
+            // Start by getting the session id
+            dexcomNetwork.getSessionId()
+        }
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {
@@ -68,6 +83,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         } else {
             showPopover(sender)
         }
+    }
+    
+    func setupImageLayer(imageview :NSImageView) {
+        imageview.wantsLayer = true
+        //imageview.layer!.borderColor = NSColor.whiteColor().CGColor
+        //imageview.layer!.borderWidth = 2.0
+        imageview.layer!.cornerRadius = 5.0
+        imageview.layer!.masksToBounds = true
     }
     
     func userNotificationCenter(center: NSUserNotificationCenter, shouldPresentNotification notification: NSUserNotification) -> Bool {
