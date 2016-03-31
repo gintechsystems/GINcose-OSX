@@ -14,10 +14,10 @@
 		BB7D2F481C9F41FF0055FD5A /* DexcomNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7D2F471C9F41FF0055FD5A /* DexcomNetwork.swift */; };
 		BB7D2F4D1C9FE5580055FD5A /* LastGlucoseInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7D2F4C1C9FE5570055FD5A /* LastGlucoseInfo.swift */; };
 		BB87445C1CA7480700981E31 /* PublisherAccountInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB87445B1CA7480700981E31 /* PublisherAccountInfo.swift */; };
-		BB8744611CA7521800981E31 /* GlucosePopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB87445F1CA7521800981E31 /* GlucosePopupViewController.swift */; };
-		BB8744621CA7521800981E31 /* GlucosePopupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB8744601CA7521800981E31 /* GlucosePopupViewController.xib */; };
 		BBB62D8E1CA11BD300F1CA6A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBB62D8D1CA11BD300F1CA6A /* MainMenu.xib */; };
 		BBC4ECA21CAD777E007180C0 /* EventMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC4ECA11CAD777E007180C0 /* EventMonitor.swift */; };
+		BBC4ECA51CAD78EE007180C0 /* GlucosePopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC4ECA31CAD78EE007180C0 /* GlucosePopupViewController.swift */; };
+		BBC4ECA61CAD78EE007180C0 /* GlucosePopupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBC4ECA41CAD78EE007180C0 /* GlucosePopupViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,10 +30,10 @@
 		BB7D2F471C9F41FF0055FD5A /* DexcomNetwork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DexcomNetwork.swift; sourceTree = "<group>"; };
 		BB7D2F4C1C9FE5570055FD5A /* LastGlucoseInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LastGlucoseInfo.swift; sourceTree = "<group>"; };
 		BB87445B1CA7480700981E31 /* PublisherAccountInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublisherAccountInfo.swift; sourceTree = "<group>"; };
-		BB87445F1CA7521800981E31 /* GlucosePopupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GlucosePopupViewController.swift; path = ../GlucosePopupViewController.swift; sourceTree = "<group>"; };
-		BB8744601CA7521800981E31 /* GlucosePopupViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GlucosePopupViewController.xib; path = ../GlucosePopupViewController.xib; sourceTree = "<group>"; };
 		BBB62D8D1CA11BD300F1CA6A /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		BBC4ECA11CAD777E007180C0 /* EventMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventMonitor.swift; sourceTree = "<group>"; };
+		BBC4ECA31CAD78EE007180C0 /* GlucosePopupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlucosePopupViewController.swift; sourceTree = "<group>"; };
+		BBC4ECA41CAD78EE007180C0 /* GlucosePopupViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GlucosePopupViewController.xib; sourceTree = "<group>"; };
 		FBC5D3A652171DC0CA98F0AB /* Pods-GINcose.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GINcose.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GINcose/Pods-GINcose.debug.xcconfig"; sourceTree = "<group>"; };
 		FE862DA4E99D6FC7A485BEC8 /* Pods-GINcose.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GINcose.release.xcconfig"; path = "Pods/Target Support Files/Pods-GINcose/Pods-GINcose.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -87,8 +87,8 @@
 				BB7D2F4C1C9FE5570055FD5A /* LastGlucoseInfo.swift */,
 				BBC4ECA11CAD777E007180C0 /* EventMonitor.swift */,
 				BBB62D8D1CA11BD300F1CA6A /* MainMenu.xib */,
-				BB87445F1CA7521800981E31 /* GlucosePopupViewController.swift */,
-				BB8744601CA7521800981E31 /* GlucosePopupViewController.xib */,
+				BBC4ECA31CAD78EE007180C0 /* GlucosePopupViewController.swift */,
+				BBC4ECA41CAD78EE007180C0 /* GlucosePopupViewController.xib */,
 				BB7D2F3A1C9F35A40055FD5A /* Assets.xcassets */,
 				BB7D2F3F1C9F35A40055FD5A /* Info.plist */,
 			);
@@ -165,7 +165,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB8744621CA7521800981E31 /* GlucosePopupViewController.xib in Resources */,
+				BBC4ECA61CAD78EE007180C0 /* GlucosePopupViewController.xib in Resources */,
 				BB7D2F3B1C9F35A40055FD5A /* Assets.xcassets in Resources */,
 				BBB62D8E1CA11BD300F1CA6A /* MainMenu.xib in Resources */,
 			);
@@ -226,9 +226,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BBC4ECA51CAD78EE007180C0 /* GlucosePopupViewController.swift in Sources */,
 				BB87445C1CA7480700981E31 /* PublisherAccountInfo.swift in Sources */,
 				BB7D2F391C9F35A40055FD5A /* AppDelegate.swift in Sources */,
-				BB8744611CA7521800981E31 /* GlucosePopupViewController.swift in Sources */,
 				BB7D2F481C9F41FF0055FD5A /* DexcomNetwork.swift in Sources */,
 				BBC4ECA21CAD777E007180C0 /* EventMonitor.swift in Sources */,
 				BB7D2F4D1C9FE5580055FD5A /* LastGlucoseInfo.swift in Sources */,
