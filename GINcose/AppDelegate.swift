@@ -32,6 +32,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     var glucoseTimer :NSTimer! = nil
     
     var isFirstReadingLaunch = true
+    
+    var eventMonitor: EventMonitor!
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // Insert code here to initialize your application
@@ -45,6 +47,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         statusItem.action = #selector(togglePopover)
         
         defaultPopOver.contentViewController = GlucosePopupViewController(nibName: "GlucosePopupViewController", bundle: nil)
+        
+        eventMonitor = EventMonitor(mask: [.LeftMouseDownMask, .RightMouseDownMask]) { [unowned self] event in
+            if self.defaultPopOver.shown {
+                self.closePopover(event)
+            }
+        }
         
         // Seup the network manager
         dexcomNetwork.setupManager()
@@ -71,10 +79,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         else {
             defaultPopOver.showRelativeToRect(statusItem.view!.bounds, ofView: statusItem.view!, preferredEdge: NSRectEdge.MinY)
         }
+        eventMonitor.start()
     }
     
     func closePopover(sender: AnyObject?) {
         defaultPopOver.performClose(sender)
+        eventMonitor.stop()
     }
     
     func togglePopover(sender: AnyObject?) {

@@ -53,7 +53,7 @@ class DexcomNetwork :NSObject, NSXMLParserDelegate {
     
     func getLatestGlucose() {
         manager.POST(String(format: "%@ReadPublisherLatestGlucoseValues?sessionId=%@&minutes=1440&maxCount=%i", DexcomShare2Services.Publisher.rawValue, sessionId, glucoseMaxCount), parameters: nil, progress: nil, success: { (task :NSURLSessionDataTask, responseObj :AnyObject?) -> Void in
-            NSLog("LastGlucose Completed")
+            NSLog("Latest Glucose Completed")
             
             //NSLog("\(responseObj!)")
             
@@ -87,7 +87,7 @@ class DexcomNetwork :NSObject, NSXMLParserDelegate {
             else {
                 notification.informativeText = String(format: "Your glucose level is now at %i.", appDel.lastGlucoseInfo.glucose)
             }
-            notification.soundName = NSUserNotificationDefaultSoundName
+            notification.soundName = nil
             
             NSUserNotificationCenter.defaultUserNotificationCenter().deliverNotification(notification)
             
@@ -99,7 +99,7 @@ class DexcomNetwork :NSObject, NSXMLParserDelegate {
                 NSLog("\(error)")
         }
         
-        NSLog("Requesting LastGlucose...")
+        NSLog("Requesting Latest Glucose...")
     }
     
     func setupPublisher() {
